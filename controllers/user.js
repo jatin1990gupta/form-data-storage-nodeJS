@@ -1,8 +1,9 @@
 const User = require('../models/user');
-const nodemailer = require('../utils/nodemailer');
 
 exports.getIndex = (req, res, next) => {
-  res.render('index');
+  res.status(200).json({
+    pageTitle: 'IndexPage'
+  });
 }
 
 exports.postData = (req, res, next) => {
@@ -18,14 +19,10 @@ exports.postData = (req, res, next) => {
 
   user.save()
     .then(result => {
-      console.log(result);
+      res.status(200).json(result);
       console.log('Data Inserted Successfully');
-      nodemailer.adminMail(name, email, phone);
-      nodemailer.userMail(name, email);
     })
     .catch(err => {
       console.log(err);
     })
-
-  res.render('success');
 }
